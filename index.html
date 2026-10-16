@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For Miral ❤️</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1f1124 0%, #0b0710 100%);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* الشاشة الأولى: زر البداية فقط */
+    .start-screen {
+      text-align: center;
+      z-index: 20;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #0b0710;
+      transition: opacity 0.5s ease;
+    }
+
+    .start-btn {
+      padding: 18px 35px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 35px;
+      cursor: pointer;
+      background: linear-gradient(135deg, #2b1b36 0%, #3d224d 100%);
+      color: #ff8fab;
+      border: 1px solid rgba(255, 143, 171, 0.4);
+      box-shadow: 0 5px 20px rgba(255, 105, 180, 0.4);
+      transition: all 0.3s ease;
+    }
+    .start-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 25px rgba(255, 105, 180, 0.6);
+    }
+
+    /* الواجهة التفاعلية (تظهر بعد الضغط) */
+    .main-screen {
+      display: none;
+      text-align: center;
+      z-index: 10;
+      padding: 20px;
+      max-width: 400px;
+      width: 90%;
+    }
+    .main-screen.active {
+      display: block;
+    }
+
+    /* القلوب المتحركة في الخلفية */
+    .floating-heart {
+      position: fixed;
+      bottom: -30px;
+      font-size: 22px;
+      user-select: none;
+      pointer-events: none;
+      z-index: 1;
+      animation: floatUp 5s linear infinite;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) scale(0.6) rotate(0deg);
+        opacity: 0.8;
+      }
+      50% { opacity: 1; }
+      100% {
+        transform: translateY(-110vh) scale(1.4) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* كلمة "I Love You Meme" المتحركة عبر الشاشة */
+    .flying-love-text {
+      position: fixed;
+      font-size: 1.5rem;
+      color: #ff758c;
+      font-weight: bold;
+      text-shadow: 0 0 10px rgba(255, 117, 140, 0.5);
+      user-select: none;
+      pointer-events: none;
+      z-index: 2;
+      white-space: nowrap;
+      animation: flyAcross 8s linear infinite;
+    }
+
+    @keyframes flyAcross {
+      0% {
+        transform: translate(-150px, var(--start-y)) rotate(0deg);
+        opacity: 0;
+      }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% {
+        transform: translate(calc(100vw + 150px), var(--end-y)) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* الدائرة في المنتصف */
+    .circle-container {
+      position: relative;
+      width: 130px;
+      height: 130px;
+      margin: 0 auto 20px auto;
+      background: rgba(255, 105, 180, 0.1);
+      border: 2px solid rgba(255, 105, 180, 0.4);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 0 25px rgba(255, 105, 180, 0.2);
+    }
+    
+    .circle-icon {
+      font-size: 3rem;
+      animation: pulse 1.5s infinite;
+    }
+
+    /* خطوط الأصوات تحت الدائرة */
+    .audio-visualizer {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      gap: 5px;
+      margin-bottom: 35px;
+      height: 35px;
+    }
+
+    .bar {
+      width: 4px;
+      background: linear-gradient(to top, #ff758c, #ff7eb3);
+      border-radius: 3px;
+      animation: soundWave 0.8s infinite alternate;
+    }
+
+    .bar:nth-child(1) { height: 12px; animation-delay: 0.1s; }
+    .bar:nth-child(2) { height: 25px; animation-delay: 0.3s; }
+    .bar:nth-child(3) { height: 18px; animation-delay: 0.2s; }
+    .bar:nth-child(4) { height: 32px; animation-delay: 0.4s; }
+    .bar:nth-child(5) { height: 20px; animation-delay: 0.15s; }
+    .bar:nth-child(6) { height: 28px; animation-delay: 0.25s; }
+    .bar:nth-child(7) { height: 15px; animation-delay: 0.35s; }
+
+    @keyframes soundWave {
+      0% { transform: scaleY(0.4); }
+      100% { transform: scaleY(1.3); }
+    }
+
+    /* الأزرار الداخلية */
+    .button-group {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .btn {
+      padding: 15px 20px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      background: linear-gradient(135deg, rgba(255, 117, 140, 0.15), rgba(255, 105, 180, 0.25));
+      color: #ff8fab;
+      border: 1px solid rgba(255, 143, 171, 0.3);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      background: linear-gradient(135deg, rgba(255, 117, 140, 0.3), rgba(255, 105, 180, 0.4));
+      box-shadow: 0 6px 20px rgba(255, 105, 180, 0.3);
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.12); }
+      100% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- الشاشة الأولى: زر البداية فقط -->
+  <div class="start-screen" id="startScreen">
+    <button class="start-btn" id="startBtn">اميرتي</button>
+  </div>
+
+  <!-- الواجهة التفاعلية (تظهر فوراً بعد الكبس) -->
+  <div class="main-screen" id="mainScreen">
+    <div class="circle-container">
+      <div class="circle-icon">❤️</div>
+    </div>
+
+    <div class="audio-visualizer">
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+    </div>
+
+    <div class="button-group">
+      <button id="songToggleBtn" class="btn">⏸️ إيقاف / تشغيل الأغنية</button>
+      <button id="loveBtn" class="btn">I Love You Meme</button>
+    </div>
+  </div>
+
+  <!-- ملف الصوت -->
+  <audio id="bgMusic" src="song.mp3" preload="auto" loop></audio>
+
+  <script>
+    const startScreen = document.getElementById('startScreen');
+    const startBtn = document.getElementById('startBtn');
+    const mainScreen = document.getElementById('mainScreen');
+    const bgMusic = document.getElementById('bgMusic');
+    const songToggleBtn = document.getElementById('songToggleBtn');
+    const loveBtn = document.getElementById('loveBtn');
+
+    // عند الضغط على زر البداية يتم الانتقال فوراً وتشغيل الصوت
+    startBtn.addEventListener('click', () => {
+      bgMusic.play().catch(e => console.log(e));
+      startScreen.style.opacity = '0';
+      setTimeout(() => {
+        startScreen.style.display = 'none';
+        mainScreen.classList.add('active');
+        startBackgroundEffects();
+      }, 400);
+    });
+
+    function startBackgroundEffects() {
+      // 1. توليد قلوب كثيرة في الخلفية
+      const heartSymbols = ['💖', '💗', '💓', '💕', '❤️', '🩷', '✨'];
+      setInterval(() => {
+        const heart = document.createElement('div');
+        heart.classList.add('floating-heart');
+        heart.innerText = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+          heart.remove();
+        }, 6000);
+      }, 200);
+
+      // 2. توليد كلمة "I Love You Meme" لتمر عبر الشاشة
+      setInterval(() => {
+        const textDiv = document.createElement('div');
+        textDiv.classList.add('flying-love-text');
+        textDiv.innerText = "I Love You Meme ❤️";
+        
+        const startY = Math.random() * window.innerHeight;
+        const endY = startY + (Math.random() * 200 - 100);
+        textDiv.style.setProperty('--start-y', startY + 'px');
+        textDiv.style.setProperty('--end-y', endY + 'px');
+        
+        document.body.appendChild(textDiv);
+
+        setTimeout(() => {
+          textDiv.remove();
+        }, 8000);
+      }, 2000);
+    }
+
+    // التحكم بالصوت
+    songToggleBtn.addEventListener('click', () => {
+      if (bgMusic.paused) {
+        bgMusic.play();
+        songToggleBtn.innerText = '⏸️ إيقاف الأغنية';
+      } else {
+        bgMusic.pause();
+        songToggleBtn.innerText = '▶️ تشغيل الأغنية';
+      }
+    });
+
+    loveBtn.addEventListener('click', () => {
+      alert('I Love You Meme ❤️');
+    });
+  </script>
+</body>
+</html>
